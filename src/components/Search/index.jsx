@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { api } from "../../services/api";
 import toast from "react-hot-toast";
+import { Button, Grid, TextField } from "@mui/material";
 
 export const Search = ({ setSearch }) => {
   const formSchema = yup.object().shape({
@@ -33,13 +34,26 @@ export const Search = ({ setSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitFunction)}>
-      <input
-        placeholder="Digite o nome do repositório"
+    <Grid
+      container
+      direction="row"
+      alignItems="stretch"
+      component="form"
+      sx={{ mt: 2 }}
+      onSubmit={handleSubmit(onSubmitFunction)}
+    >
+      <TextField
+        item
+        error={!!errors.repository?.message}
+        label="Digite o nome do repositório"
+        variant="outlined"
         {...register("repository")}
+        helperText={errors.repository?.message}
       />
-      <div>{errors.repository?.message}</div>
-      <button type="submit">Pesquisar</button>
-    </form>
+
+      <Button item variant="contained" type="submit">
+        Pesquisar
+      </Button>
+    </Grid>
   );
 };

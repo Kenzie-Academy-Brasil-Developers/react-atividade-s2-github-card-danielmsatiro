@@ -1,12 +1,27 @@
-export const Card = ({ search }) => {
+import { Link, Box, Grid, Typography } from "@mui/material";
 
+export const Card = ({ search }) => {
   return (
-    <a href={search.html_url}>
-      <img src={search.owner?.avatar_url} alt="logo" />
-      <div>
-        <h1>{search.name}</h1>
-        <p>{search.description}</p>
-      </div>
-    </a>
+    <Box>
+      <Link href={search.html_url}>
+        <Grid container direction="row" alignItems="stretch">
+          <Grid
+            sx={{ width: 150 }}
+            component="img"
+            item
+            src={search.owner?.avatar_url}
+            alt="logo"
+          />
+          <Grid componet="div" item>
+            <Typography component="h2" variant="h4">
+              {search.name}
+            </Typography>
+            <Typography component="h3" variant="p">
+              {search.description}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Link>
+    </Box>
   );
 };
