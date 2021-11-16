@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { api } from "../../services/api";
+import toast from "react-hot-toast";
 
 export const Search = ({ setSearch }) => {
   const formSchema = yup.object().shape({
@@ -14,12 +16,21 @@ export const Search = ({ setSearch }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunction = (data) => setSearch(data.repository);
+  const onSubmitFunction = (data) => {
+    api
+      .get(`/repos/${data.repository}`)
+      .then((response) => setSearch(response.data))
+      .catch((err) => {
+        toast.error("Repositório não encontrado");
+      });
+    reset();
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmitFunction)}>
